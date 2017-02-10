@@ -1,25 +1,32 @@
 import pygame
 
 #class: controllable player object
-#parameters: String image, int speed, int init_x, int init_y, int ani_time
-#frames: array of paths to images
+#parameters: array front_frames, array back_frames, array left_frames, array right_frames, int speed, int init_x, int init_y, int ani_time
+#front_frames: array of paths to images
+#back_frames: array of paths to images
+#right_frames: array of paths to images
+#left_frames: array of paths to images
 #speed: value representing the initial speed of the player
 #init_x: initial x value of the spawning location of the player
 #init_y: initial y value of the spawning location of the player
 #ani_time: time between frames in the animation
 class Player(pygame.sprite.Sprite):
-    def __init__(self, frames, speed, init_x, init_y, ani_time):
+    def __init__(self, front_frames, back_frames, right_frames, left_frames, speed, init_x, init_y, ani_time):
         super().__init__()
 
         self.speed = speed
-        self.frames = frames
-
+        self.front_frames = front_frames
+        self.back_frames = back_frames
+        self.right_frames = right_frames
+        self.left_frames = left_frames
+        self.current_frame_set = front_frames
+        self.prev_frame_set = self.current_frame_set
 
         self.x_change = 0
         self.y_change = 0
 
         self.frame_idx = 0
-        self.current_frame = frames[0]
+        self.current_frame = self.current_frame_set[0]
         self.image = pygame.image.load(self.current_frame)
         self.ani_time = ani_time
         self.current_ani_time = ani_time
@@ -35,14 +42,15 @@ class Player(pygame.sprite.Sprite):
 #dt: time between cyclesin the main loop
     def animate(self, dt):
         if self.current_ani_time >= self.ani_time:
-
             self.frame_idx += 1
-            if self.frame_idx >= len(self.frames):
+
+            if self.frame_idx >= len(self.current_frame_set):
                 self.frame_idx = 0
 
+            self.current_frame = self.current_frame_set[self.frame_idx]
             self.current_ani_time = 0
+            self.image = pygame.image.load(self.current_frame)
 
-            self.image = pygame.image.load(self.frames[self.frame_idx])
         else:
             self.current_ani_time += dt
 
@@ -62,12 +70,23 @@ class Player(pygame.sprite.Sprite):
     def accelerate(self, direction):
         if direction == 0:
             self.y_change = -self.speed
+            self.current_frame_set = self.back_frames
         if direction == 1:
             self.y_change = self.speed
+            self.current_frame_set = self.front_frames
         if direction == 2:
             self.x_change = -self.speed
+            self.current_frame_set = self.left_frames
         if direction == 3:
             self.x_change = self.speed
+            self.current_frame_set = self.right_frames
+
+        if self.prev_frame_set != self.current_frame_set:
+            frame_idx = 0;
+            self.current_frame = self.current_frame_set[frame_idx]
+            self.image = pygame.image.load(self.current_frame)
+
+        self.prev_frame_set = self.current_frame_set
 
 #function: sets x_change or y_change to 0
 #parameters: int direction

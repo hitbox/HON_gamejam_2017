@@ -15,7 +15,7 @@ screen = pygame.display.set_mode(SCREEN_SIZE, 0, 32)
 scene_id = 0
 current_menu = None
 #initialize the player
-player = Player(player_frames, PLAYER_SPEED_INIT, 100, 100, 250)
+player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, PLAYER_SPEED_INIT, 100, 100, 200)
 
 #initialize title screen
 title_screen_buttons = [Button((200, 200),startbutton_img, 1), Button((200, 300), quitbutton_img, -1)]
