@@ -75,11 +75,3 @@ class Menu(Scene):
     def set_clickables(self, screen):
         for b in self.buttons:
             self.clickables.append(b.display(screen))
-
-#class: game background instance
-#parameters: String image, tuple loc
-#image: path to the image location
-#loc: x,y coordinate location for the image to be displayed on the screen
-class GameBackground(Scene):
-    def __init__(self, image, loc=(0,0)):
-        super().__init__(loc, image)

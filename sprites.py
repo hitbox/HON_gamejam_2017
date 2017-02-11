@@ -75,15 +75,25 @@ class Player(pygame.sprite.Sprite):
     def accelerate(self, direction):
         if direction == 0:
             self.y_change = -self.speed
-            self.current_frame_set = self.back_frames
         if direction == 1:
             self.y_change = self.speed * 1.5
-            self.current_frame_set = self.front_frames
         if direction == 2:
             self.x_change = -self.speed
-            self.current_frame_set = self.left_frames
         if direction == 3:
             self.x_change = self.speed * 1.5
+
+    def assign_frame_set(self, direction):
+        if direction == 0:
+            #self.y_change = -self.speed
+            self.current_frame_set = self.back_frames
+        if direction == 1:
+            #self.y_change = self.speed * 1.5
+            self.current_frame_set = self.front_frames
+        if direction == 2:
+            #self.x_change = -self.speed
+            self.current_frame_set = self.left_frames
+        if direction == 3:
+            #self.x_change = self.speed * 1.5
             self.current_frame_set = self.right_frames
 
         if self.prev_frame_set != self.current_frame_set:
@@ -92,7 +102,6 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load(self.current_frame)
 
         self.prev_frame_set = self.current_frame_set
-
 #function: sets x_change or y_change to 0
 #parameters: int direction
 #direction: 0 to 3 value representing the for cardinal directions
@@ -157,3 +166,59 @@ class Player(pygame.sprite.Sprite):
          + "|Speed: " + str(self.speed)
          + "|Damage: " + str(self.damage)
          + "|Experience: " + str(self.exp))
+
+#class: game background instance
+#parameters: String image, tuple loc
+#image: path to the image location
+#loc: x,y coordinate location for the image to be displayed on the screen
+class GameBackground(pygame.sprite.Sprite):
+    def __init__(self, image, speed, init_x, init_y):
+        super().__init__()
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+        self.rect.x = init_x
+        self.rect.y = init_y
+        self.x_change = 0
+        self.y_change = 0
+        self.speed = speed
+
+    #function: updates the location of the player
+    #parameters: float game_speed
+    #game_speed: base speed for all entities in the game
+    def behave(self, game_speed):
+        self.rect.x += self.x_change * game_speed
+        self.rect.y += self.y_change * game_speed
+        print("base speed: " + str(self.speed) + " x speed: " + str(self.x_change*game_speed) + " y_speed: " + str(self.y_change*game_speed))
+
+    #function: sets the x_change and y_change to + or - the players speed attribute
+    #parameters: int direction
+    #direction: 0 to 3 value representing the for cardinal directions
+    def accelerate(self, direction):
+        if direction == 0:
+            self.y_change = -self.speed * 1.5
+        if direction == 1:
+            self.y_change = self.speed
+        if direction == 2:
+            self.x_change = -self.speed
+        if direction == 3:
+            self.x_change = self.speed * 1.5
+
+    #function: sets x_change or y_change to 0
+    #parameters: int direction
+    #direction: 0 to 3 value representing the for cardinal directions
+    def deccelerate(self, direction):
+        if direction == 0:
+            self.y_change = 0
+        if direction == 1:
+            self.y_change = 0
+        if direction == 2:
+            self.x_change = 0
+        if direction == 3:
+            self.x_change = 0
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__():
+        super().__init__()

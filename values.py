@@ -5,7 +5,7 @@ FPS = 60
 
 PLAYER_SPEED_INIT = 7
 
-INIT_STATS = {
+INIT_PLAYER_STATS = {
     'health' : 10,
     'speed' : 7,
     'damage' : 1,

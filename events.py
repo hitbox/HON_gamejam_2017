@@ -6,7 +6,7 @@ from pygame.locals import *
 #scene_id: value representing where in the game the player is example: a menu or a game level
 #player: represents an instance of the player class
 #title_menu: title menu to use buttons from
-def handle_events(scene_id, player, menu):
+def handle_events(scene_id, player, background, menu):
 
     result = scene_id
 
@@ -26,23 +26,35 @@ def handle_events(scene_id, player, menu):
         if scene_id == 1:
             if event.type == KEYDOWN:
                 if event.key == K_w:
-                    player.accelerate(0)
+                    #player.accelerate(0)
+                    player.assign_frame_set(0)
+                    background.accelerate(1)
                 if event.key == K_s:
-                    player.accelerate(1)
+                    #player.accelerate(1)
+                    player.assign_frame_set(1)
+                    background.accelerate(0)
                 if event.key == K_a:
-                    player.accelerate(2)
+                    #player.accelerate(2)
+                    player.assign_frame_set(2)
+                    background.accelerate(3)
                 if event.key == K_d:
-                    player.accelerate(3)
+                    #player.accelerate(3)
+                    player.assign_frame_set(3)
+                    background.accelerate(2)
 
             if event.type == KEYUP:
                 if event.key == K_w:
-                    player.deccelerate(0)
+                    background.deccelerate(1)
+                    #player.deccelerate(0)
                 if event.key == K_s:
-                    player.deccelerate(1)
+                    background.deccelerate(0)
+                    #player.deccelerate(1)
                 if event.key == K_a:
-                    player.deccelerate(2)
+                    background.deccelerate(3)
+                    #player.deccelerate(2)
                 if event.key == K_d:
-                    player.deccelerate(3)
+                    background.deccelerate(2)
+                    #player.deccelerate(3)
 
     if result < 0:
         result = 0
