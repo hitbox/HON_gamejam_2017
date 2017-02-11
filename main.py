@@ -51,6 +51,7 @@ while True:
         background_sprite_group.draw(screen)
         ally_sprite_group.draw(screen)
 
+        level1_background.print_rect_loc()
         stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
         screen.blit(stats_display, (0,0))
 

@@ -190,20 +190,31 @@ class GameBackground(pygame.sprite.Sprite):
     def behave(self, game_speed):
         self.rect.x += self.x_change * game_speed
         self.rect.y += self.y_change * game_speed
-        print("base speed: " + str(self.speed) + " x speed: " + str(self.x_change*game_speed) + " y_speed: " + str(self.y_change*game_speed))
+
+        if self.rect.x > 350:
+            self.rect.x = 350
+        if self.rect.x < -1550:
+            self.rect.x = -1550
+        if self.rect.y > 255:
+            self.rect.y = 255
+        if self.rect.y < -1645:
+            self.rect.y = -1645
+
+        #print("base speed: " + str(self.speed) + " x speed: " + str(self.x_change*game_speed) + " y_speed: " + str(self.y_change*game_speed))
 
     #function: sets the x_change and y_change to + or - the players speed attribute
     #parameters: int direction
     #direction: 0 to 3 value representing the for cardinal directions
     def accelerate(self, direction):
         if direction == 0:
-            self.y_change = -self.speed * 1.5
+            self.y_change = -self.speed
         if direction == 1:
             self.y_change = self.speed
         if direction == 2:
             self.x_change = -self.speed
         if direction == 3:
-            self.x_change = self.speed * 1.5
+            self.x_change = self.speed
+
 
     #function: sets x_change or y_change to 0
     #parameters: int direction
@@ -217,6 +228,9 @@ class GameBackground(pygame.sprite.Sprite):
             self.x_change = 0
         if direction == 3:
             self.x_change = 0
+
+    def print_rect_loc(self):
+        print('Rect x: ' + str(self.rect.x) + ' Rect y: ' + str(self.rect.y))
 
 
 class Enemy(pygame.sprite.Sprite):
