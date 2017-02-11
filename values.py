@@ -12,3 +12,8 @@ INIT_PLAYER_STATS = {
     'damage' : 1,
     'exp' : 0
 }
+PLAYER_ATTACK_TIME = 80
+
+ally_sprite_group = pygame.sprite.Group()
+background_sprite_group = pygame.sprite.Group()
+player_attack_group = pygame.sprite.Group()

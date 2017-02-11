@@ -1,4 +1,6 @@
 import pygame
+from assets import *
+from values import *
 
 #class: controllable player object
 #parameters: array front_frames, array back_frames, array left_frames, array right_frames, int speed, int init_x, int init_y, int ani_time
@@ -41,6 +43,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = init_x
         self.rect.y = init_y
 
+        self.current_attack = None
+
+
 #function: animates the sprite by changing the displayed image
 #parameters: float dt
 #dt: time between cyclesin the main loop
@@ -67,6 +72,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.y_change * game_speed
 
         self.animate(dt)
+        if player_attack_group.sprites() == []:
+            self.current_attack = None
         #print("x speed: " + str(self.x_change*game_speed) + " y_speed: " + str(self.y_change*game_speed))
 
 #function: sets the x_change and y_change to + or - the players speed attribute
@@ -167,12 +174,27 @@ class Player(pygame.sprite.Sprite):
          + "|Damage: " + str(self.damage)
          + "|Experience: " + str(self.exp))
 
+    def attack(self, direction):
+        if self.current_attack == None:
+            if direction == 0:
+                self.current_attack = PlayerAttack(player_attack_back_frames, self.stats['damage'], self.rect.x, self.rect.y - 20, PLAYER_ATTACK_TIME)
+                player_attack_group.add(self.current_attack)
+            if direction == 1:
+                self.current_attack = PlayerAttack(player_attack_front_frames, self.stats['damage'], self.rect.x, self.rect.y + 30, PLAYER_ATTACK_TIME)
+                player_attack_group.add(self.current_attack)
+            if direction == 2:
+                self.current_attack = PlayerAttack(player_attack_right_frames, self.stats['damage'], self.rect.x + 20, self.rect.y, PLAYER_ATTACK_TIME)
+                player_attack_group.add(self.current_attack)
+            if direction == 3:
+                self.current_attack = PlayerAttack(player_attack_left_frames, self.stats['damage'], self.rect.x - 20, self.rect.y, PLAYER_ATTACK_TIME)
+                player_attack_group.add(self.current_attack)
+
 #class: game background instance
 #parameters: String image, tuple loc
 #image: path to the image location
 #loc: x,y coordinate location for the image to be displayed on the screen
 class GameBackground(pygame.sprite.Sprite):
-    def __init__(self, image, speed, init_x, init_y):
+    def __init__(self, image, stats, init_x, init_y):
         super().__init__()
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
@@ -182,7 +204,7 @@ class GameBackground(pygame.sprite.Sprite):
         self.rect.y = init_y
         self.x_change = 0
         self.y_change = 0
-        self.speed = speed
+        self.stats = stats
 
     #function: updates the location of the player
     #parameters: float game_speed
@@ -207,13 +229,13 @@ class GameBackground(pygame.sprite.Sprite):
     #direction: 0 to 3 value representing the for cardinal directions
     def accelerate(self, direction):
         if direction == 0:
-            self.y_change = -self.speed
+            self.y_change = -self.stats['speed']
         if direction == 1:
-            self.y_change = self.speed
+            self.y_change = self.stats['speed']
         if direction == 2:
-            self.x_change = -self.speed
+            self.x_change = -self.stats['speed']
         if direction == 3:
-            self.x_change = self.speed
+            self.x_change = self.stats['speed']
 
 
     #function: sets x_change or y_change to 0
@@ -231,6 +253,41 @@ class GameBackground(pygame.sprite.Sprite):
 
     def print_rect_loc(self):
         print('Rect x: ' + str(self.rect.x) + ' Rect y: ' + str(self.rect.y))
+
+
+
+
+class PlayerAttack(pygame.sprite.Sprite):
+    def __init__(self, frames, damage, init_x, init_y, ani_time):
+        super().__init__()
+        self.frames = frames
+        self.damage = damage
+        self.current_frame = frames[0]
+        self.image = pygame.image.load(self.current_frame)
+        self.rect = self.image.get_rect()
+        self.rect.x = init_x
+        self.rect.y = init_y
+        self.ani_time = ani_time
+        self.frame_idx = 0
+        self.current_ani_time = 0
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+
+    def behave(self, dt):
+        if self.current_ani_time >= self.ani_time:
+            self.frame_idx += 1
+
+            if self.frame_idx >= len(self.frames):
+                self.frame_idx -= 1
+                self.kill()
+
+            self.current_frame = self.frames[self.frame_idx]
+            self.current_ani_time = 0
+            self.image = pygame.image.load(self.current_frame)
+
+        else:
+            self.current_ani_time += dt
+
 
 
 class Enemy(pygame.sprite.Sprite):

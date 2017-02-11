@@ -26,35 +26,36 @@ def handle_events(scene_id, player, background, menu):
         if scene_id == 1:
             if event.type == KEYDOWN:
                 if event.key == K_w:
-                    #player.accelerate(0)
                     player.assign_frame_set(0)
                     background.accelerate(1)
                 if event.key == K_s:
-                    #player.accelerate(1)
                     player.assign_frame_set(1)
                     background.accelerate(0)
                 if event.key == K_a:
-                    #player.accelerate(2)
                     player.assign_frame_set(2)
                     background.accelerate(3)
                 if event.key == K_d:
-                    #player.accelerate(3)
                     player.assign_frame_set(3)
                     background.accelerate(2)
+                    
+                if event.key == K_UP:
+                    player.attack(0)
+                if event.key == K_DOWN:
+                    player.attack(1)
+                if event.key == K_RIGHT:
+                    player.attack(2)
+                if event.key == K_LEFT:
+                    player.attack(3)
 
             if event.type == KEYUP:
                 if event.key == K_w:
                     background.deccelerate(1)
-                    #player.deccelerate(0)
                 if event.key == K_s:
                     background.deccelerate(0)
-                    #player.deccelerate(1)
                 if event.key == K_a:
                     background.deccelerate(3)
-                    #player.deccelerate(2)
                 if event.key == K_d:
                     background.deccelerate(2)
-                    #player.deccelerate(3)
 
     if result < 0:
         result = 0
