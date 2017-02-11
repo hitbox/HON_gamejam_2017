@@ -11,11 +11,14 @@ clock = pygame.time.Clock()
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE, 0, 32)
 
+pygame.font.init()
+stats_font = pygame.font.SysFont('Comic Sans', 30)
+
 #set the current scene
 scene_id = 0
 current_menu = None
 #initialize the player
-player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, PLAYER_SPEED_INIT, 100, 100, 200)
+player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, INIT_STATS, 100, 100, 200)
 
 #initialize title screen
 title_screen_buttons = [Button((200, 200),startbutton_img, 1), Button((200, 300), quitbutton_img, -1)]
@@ -42,6 +45,9 @@ while True:
         player.behave(game_speed, dt)
         level1_background.display(screen)
         ally_sprite_group.draw(screen)
+
+        stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
+        screen.blit(stats_display, (0,0))
 
 
     pygame.display.update()

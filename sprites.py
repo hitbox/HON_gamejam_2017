@@ -11,10 +11,14 @@ import pygame
 #init_y: initial y value of the spawning location of the player
 #ani_time: time between frames in the animation
 class Player(pygame.sprite.Sprite):
-    def __init__(self, front_frames, back_frames, right_frames, left_frames, speed, init_x, init_y, ani_time):
+    def __init__(self, front_frames, back_frames, right_frames, left_frames, stats, init_x, init_y, ani_time):
         super().__init__()
+        self.stats = stats
+        self.health = self.stats['health']
+        self.speed = self.stats['speed']
+        self.damage = self.stats['damage']
+        self.exp = self.stats['exp']
 
-        self.speed = speed
         self.front_frames = front_frames
         self.back_frames = back_frames
         self.right_frames = right_frames
@@ -63,6 +67,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.y_change * game_speed
 
         self.animate(dt)
+        #print("x speed: " + str(self.x_change*game_speed) + " y_speed: " + str(self.y_change*game_speed))
 
 #function: sets the x_change and y_change to + or - the players speed attribute
 #parameters: int direction
@@ -72,13 +77,13 @@ class Player(pygame.sprite.Sprite):
             self.y_change = -self.speed
             self.current_frame_set = self.back_frames
         if direction == 1:
-            self.y_change = self.speed
+            self.y_change = self.speed * 1.5
             self.current_frame_set = self.front_frames
         if direction == 2:
             self.x_change = -self.speed
             self.current_frame_set = self.left_frames
         if direction == 3:
-            self.x_change = self.speed
+            self.x_change = self.speed * 1.5
             self.current_frame_set = self.right_frames
 
         if self.prev_frame_set != self.current_frame_set:
@@ -101,6 +106,54 @@ class Player(pygame.sprite.Sprite):
         if direction == 3:
             self.x_change = 0
 
+#function: changes stats
+#parameters: int dhealth, int dspeed, int ddamage, int dexp
+#dhealth: desired change in health
+#dspeed: desired change in speed
+#ddamage: desired change in damage
+#dexp: desired change in experience
+    def update_stats(self, dhealth, dspeed, ddamage, dexp):
+        self.health += dhealth
+        self.speed += dspeed
+        self.damage += ddamage
+        self.exp += dexp
+
+        self.stats['health'] = self.health
+        self.stats['speed'] = self.speed
+        self.stats['damage'] = self.damage
+        self.stats['exp'] = self.exp
+
+#function: changes the health stat
+#parameters: int d
+#d: amount to change the stat by
+    def update_health(self, d):
+        self.update_stats(d, 0, 0, 0)
+
+#function: changes the speed stat
+#parameters: int d
+#d: amount to change the stat by
+    def update_speed(self, d):
+        self.update_stats(0, d, 0, 0)
+
+#function: changes the damage stat
+#parameters: int d
+#d: amount to change the stat by
+    def update_damage(self, d):
+        self.update_stats(0, 0, d, 0)
+
+#function: changes the experience stat
+#parameters: int d
+#d: amount to change the stat by
+    def update_exp(self, d):
+        self.update_stats(0, 0, 0, d)
+
+
 #function: prints the location of the player rect attribute
     def print_rect_loc(self):
         print('Rect x: ' + str(self.rect.x) + ' Rect y: ' + str(self.rect.y))
+
+    def stats_str(self):
+        return ("Health: " + str(self.health)
+         + "|Speed: " + str(self.speed)
+         + "|Damage: " + str(self.damage)
+         + "|Experience: " + str(self.exp))
