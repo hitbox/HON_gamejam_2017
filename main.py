@@ -4,7 +4,8 @@ from sys import exit
 from values import *
 from events import *
 from assets import *
-from sprites import *
+from player_sprites import *
+from enemy_sprites import *
 from scene import *
 
 clock = pygame.time.Clock()
@@ -30,8 +31,10 @@ current_menu = title_menu
 #initialize level 1 background
 level1_background = GameBackground(level1_background_img, player.stats, 0, 0)
 
-#make ally sprite group
+enemy1 = Enemy(slime_frames, INIT_SLIME_STATS, 500, 500, 1000)
 
+#make ally sprite group
+enemy_sprite_group.add(enemy1)
 
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
@@ -40,7 +43,7 @@ ally_sprite_group.add(player)
 while True:
     #print(str(scene_id))
     dt = clock.tick(FPS)
-    game_speed = float(dt)/64
+    game_speed = .4
 
     scene_id = handle_events(scene_id, player, level1_background, current_menu)
     #player.print_rect_loc()
@@ -52,11 +55,14 @@ while True:
         level1_background.stats = player.stats
 
         level1_background.behave(game_speed)
+        enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         player.behave(game_speed, dt)
+
         if player.current_attack != None:
             player.current_attack.behave(dt)
 
         background_sprite_group.draw(screen)
+        enemy_sprite_group.draw(screen)
         ally_sprite_group.draw(screen)
         player_attack_group.draw(screen)
 
@@ -64,7 +70,10 @@ while True:
         stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
         screen.blit(stats_display, (0,0))
 
-        print(player_attack_group)
+        collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)
+        for key in collide_dict.keys():
+            print(collide_dict[key])
+        #print(player_attack_group)
 
 
 

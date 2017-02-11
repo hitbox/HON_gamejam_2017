@@ -25,6 +25,11 @@ for i in range(1,4):
 for i in range(1,4):
     player_attack_back_frames.append('assets/images/player_attack/back/' + str(i) + '.png')
 
+slime_frames = []
+
+for i in range(1, 3):
+    slime_frames.append('assets/images/slime/' + str(i) + '.png')
+
 
 title_background_img = 'assets/images/title_background.png'
 level1_background_img = 'assets/images/background.png'
