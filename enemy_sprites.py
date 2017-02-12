@@ -3,6 +3,7 @@ from assets import *
 from values import *
 import random as rand
 from pickups import *
+from decor import *
 import math
 
 class Enemy(pygame.sprite.Sprite):
@@ -113,6 +114,8 @@ class Enemy(pygame.sprite.Sprite):
                     for _ in range(0, self.stats['drop']):
                         pickups.append(Pickup(exp_frames, self.rect.x + rand.randint(-10, 10), self.rect.y + rand.randint(-10, 10), 300))
                         pickup_sprite_group.add(pickups[-1])
+                    decors.append(Decor(plant1_spawn_frames, plant1_final_img, self.rect.x + rand.randint(-10, 10), self.rect.y + rand.randint(-10, 10), 300))
+                    decor_sprite_group.add(decors[-1])
                     self.dropped = True
                 self.kill()
 

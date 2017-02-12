@@ -51,6 +51,9 @@ class Player(pygame.sprite.Sprite):
         self.current_ani_time = ani_time
 
         self.rect = self.image.get_rect()
+        #self.rect.inflate_ip(-19, -29)
+
+
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.rect.x = init_x

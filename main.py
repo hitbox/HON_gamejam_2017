@@ -10,6 +10,7 @@ from scene import *
 from game_ui import *
 from pickups import *
 from map_gen import *
+from decor import *
 
 user_end = False
 
@@ -27,6 +28,7 @@ scene_id = 0
 player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, player_invincible_frames_front,
 player_invincible_frames_back, player_invincible_frames_right, player_invincible_frames_left, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
 
+
 #initialize the player
 
 
@@ -38,7 +40,7 @@ game_over_screen_buttons = [Button((300, 275), retrybutton_img, 1), Button((300,
 game_over = Menu(screen, title_background_img, game_over_screen_buttons)
 current_menu = title_menu
 #initialize level 1 background
-level1_background = GameBackground(level1_background_img, player.stats, -500, -500)
+level1_background = GameBackground(level1_background_img, player.stats, -1000, -1000)
 
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
@@ -87,6 +89,8 @@ while True:
             e.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         for p in pickups:
             p.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
+        for d in decors:
+            d.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         player.behave(game_speed, dt)
 
         if player.current_attack != None:
@@ -95,6 +99,7 @@ while True:
         screen.fill((0,0,0))
         background_sprite_group.draw(screen)
         pickup_sprite_group.draw(screen)
+        decor_sprite_group.draw(screen)
         enemy_sprite_group.draw(screen)
         ally_sprite_group.draw(screen)
         player_attack_group.draw(screen)

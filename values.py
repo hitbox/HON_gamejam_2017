@@ -8,9 +8,10 @@ score = 0
 
 PLAYER_SPEED_INIT = 7
 current_menu = None
+
 pickups = []
 enemies = []
-
+decors = []
 
 INIT_PLAYER_STATS = {
     'health' : 10,
@@ -23,7 +24,7 @@ INIT_PLAYER_STATS = {
 INIT_SLIME_STATS = {
     'health' : 5,
     'speed' : 2.5,
-    'damage' : 1,
+    'damage' : 2,
     'drop' : 1,
     'attack_time' : 0
 }
@@ -33,13 +34,13 @@ INIT_SKULL_STATS = {
     'speed' : 0,
     'damage' : 1,
     'drop' : 3,
-    'attack_time' : 2000
+    'attack_time' : 3500
 }
 
 INIT_TAR_STATS = {
     'health' : 6,
-    'speed' : 8,
-    'damage' : 2,
+    'speed' : 6,
+    'damage' : 1,
     'drop' : 0,
     'attack_time' : 0
 }
@@ -52,3 +53,4 @@ background_sprite_group = pygame.sprite.Group()
 player_attack_group = pygame.sprite.Group()
 enemy_sprite_group = pygame.sprite.Group()
 pickup_sprite_group = pygame.sprite.Group()
+decor_sprite_group = pygame.sprite.Group()

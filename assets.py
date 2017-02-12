@@ -108,3 +108,8 @@ quitbutton_img = 'assets/images/quit_button.png'
 retrybutton_img = 'assets/images/try_again.png'
 
 all_assets.append(startbutton_img + quitbutton_img + retrybutton_img)
+
+plant1_spawn_frames = []
+plant1_final_img = 'assets/images/decor/plant_1/4.png'
+for i in range(1,4):
+    plant1_spawn_frames.append('assets/images/decor/plant_1/' + str(i) + '.png')

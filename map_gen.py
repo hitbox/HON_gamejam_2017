@@ -9,6 +9,7 @@ from enemy_sprites import *
 from scene import *
 from game_ui import *
 from pickups import *
+import random as rand
 
 def new_game_init(player, background):
 
@@ -20,12 +21,16 @@ def new_game_init(player, background):
     player.stats['exp'] = INIT_PLAYER_STATS['exp']
     player.stats['damage'] = INIT_PLAYER_STATS['damage']
 
-    for i in range(0,10):
-        enemies.append(Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, 100 + i * 80, 600, 300, 0))
+    for i in range(0,15):
+        enemies.append(Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, rand.randint(-350,1350), rand.randint(-350,1350), 300, 0))
         enemy_sprite_group.add(enemies[-1])
 
-    for i in range(0,20):
-        pickups.append(Pickup(exp_frames, 100 + i * 60, 150, 300))
+    for i in range(0,30):
+        enemies.append(Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, rand.randint(-350,1350), rand.randint(-350,1350), 300, 1))
+        enemy_sprite_group.add(enemies[-1])
+
+    for i in range(0, 50):
+        pickups.append(Pickup(exp_frames, rand.randint(-350,1350), rand.randint(-350,1350), 300))
         pickup_sprite_group.add(pickups[-1])
 
 def game_end():
