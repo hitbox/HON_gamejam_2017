@@ -32,7 +32,7 @@ INIT_SLIME_STATS = {
 INIT_SKULL_STATS = {
     'health' : 3,
     'speed' : 0,
-    'damage' : 1,
+    'damage' : 2,
     'drop' : 3,
     'attack_time' : 3500
 }

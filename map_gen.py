@@ -36,7 +36,9 @@ def new_game_init(player, background):
 def game_end():
     enemies[:] = []
     pickups[:] = []
+    decors[:] = []
 
     player_attack_group.empty()
     enemy_sprite_group.empty()
     pickup_sprite_group.empty()
+    decor_sprite_group.empty()

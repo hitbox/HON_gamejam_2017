@@ -65,13 +65,14 @@ while True:
 
     stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
     score_display = stats_font.render('Score: ' + str(score), False, (0,0,0))
+    score_display_white = stats_font.render('Final Score: ' + str(score), False, (255,255,255))
     #print('\nenemies: ' + str(enemies))
     #print(str(user_end))
     if scene_id == 0:
         current_menu.display(screen)
 
         if current_menu == game_over:
-            screen.blit(score_display, (300, 175))
+            screen.blit(score_display_white, (580, 580))
     if scene_id == 2:
         game_over.display(screen)
 
