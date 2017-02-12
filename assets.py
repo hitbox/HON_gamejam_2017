@@ -45,6 +45,8 @@ for i in range(1,4):
 
 all_assets += player_attack_back_frames + player_attack_front_frames + player_attack_left_frames + player_attack_right_frames
 
+
+
 slime_frames = []
 slime_death_frames = ['assets/images/slime/death/1.png']
 slime_damage_frames = []
@@ -113,3 +115,8 @@ plant1_spawn_frames = []
 plant1_final_img = 'assets/images/decor/plant_1/4.png'
 for i in range(1,4):
     plant1_spawn_frames.append('assets/images/decor/plant_1/' + str(i) + '.png')
+
+player_death_frames = []
+player_death_final_img = 'assets/images/inquisitor/death/7.png'
+for i in range(1, 7):
+    player_death_frames.append('assets/images/inquisitor/death/' + str(i) + '.png')

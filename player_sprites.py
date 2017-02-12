@@ -1,6 +1,7 @@
 import pygame
 from assets import *
 from values import *
+from decor import *
 
 #class: controllable player object
 #parameters: array front_frames, array back_frames, array left_frames, array right_frames, int speed, int init_x, int init_y, int ani_time
@@ -65,6 +66,8 @@ class Player(pygame.sprite.Sprite):
 
         self.current_diretion = 1
 
+        self.death_spawned = False
+
 
 #function: animates the sprite by changing the displayed image
 #parameters: float dt
@@ -98,6 +101,11 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.x_change * game_speed
         self.rect.y += self.y_change * game_speed
+
+        if self.stats['health'] <= 0 and not self.death_spawned:
+            self.death_spawned = True
+            decors.append(Decor(player_death_frames, player_death_final_img, self.rect.x, self.rect.y - 90, 350))
+            decor_sprite_group.add(decors[-1])
 
 
 

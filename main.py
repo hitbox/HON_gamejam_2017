@@ -24,12 +24,11 @@ stats_font = pygame.font.SysFont('Comic Sans', 30)
 #set the current scene
 scene_id = 0
 
+current_end_game_time = 0
 
 player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, player_invincible_frames_front,
 player_invincible_frames_back, player_invincible_frames_right, player_invincible_frames_left, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
 
-
-#initialize the player
 
 
 #initialize title screen
@@ -61,6 +60,8 @@ while True:
     game_speed = .4
 
     scene_id, user_end = handle_events(scene_id, player, level1_background, current_menu)
+    if player.death_spawned:
+        user_end = True
     #player.print_rect_loc()
 
     stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
@@ -102,7 +103,8 @@ while True:
         pickup_sprite_group.draw(screen)
         decor_sprite_group.draw(screen)
         enemy_sprite_group.draw(screen)
-        ally_sprite_group.draw(screen)
+        if current_end_game_time == 0:
+            ally_sprite_group.draw(screen)
         player_attack_group.draw(screen)
 
         #level1_background.print_rect_loc()
@@ -120,10 +122,14 @@ while True:
             #        if e.key == K_SPACE:
             #            user_end = True
             if player.stats['health'] == 0 or user_end:
-                user_end = False
-                scene_id = 0
-                game_end()
-                current_menu = game_over
+                if current_end_game_time >= END_GAME_TIME:
+                    current_end_game_time = 0
+                    user_end = False
+                    scene_id = 0
+                    game_end()
+                    current_menu = game_over
+                else:
+                    current_end_game_time += dt
 
         #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
         #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)

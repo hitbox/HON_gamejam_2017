@@ -1,5 +1,8 @@
 import pygame
 from pygame.locals import *
+from decor import *
+from values import *
+from assets import *
 
 #fuction: looks for input events and calls appropriate functions
 #parameters: int scene_id, Player player
@@ -49,6 +52,10 @@ def handle_events(scene_id, player, background, menu):
 
                 if event.key == K_SPACE:
                     #print("space key pressed")
+                    if end == False:
+                        decors.append(Decor(player_death_frames, player_death_final_img, player.rect.x, player.rect.y - 90, 350))
+                        decor_sprite_group.add(decors[-1])
+                        player.death_spawned = True
                     end = True
 
             if event.type == KEYUP:

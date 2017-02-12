@@ -9,6 +9,8 @@ score = 0
 PLAYER_SPEED_INIT = 7
 current_menu = None
 
+END_GAME_TIME = 4000
+
 pickups = []
 enemies = []
 decors = []

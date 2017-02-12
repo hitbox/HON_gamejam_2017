@@ -16,10 +16,14 @@ def new_game_init(player, background):
     background.rect.x = -500
     background.rect.y = -500
     score = 0
+
     player.stats['health'] = INIT_PLAYER_STATS['health']
     player.stats['level'] = INIT_PLAYER_STATS['level']
     player.stats['exp'] = INIT_PLAYER_STATS['exp']
     player.stats['damage'] = INIT_PLAYER_STATS['damage']
+
+    player.death_spawned = False
+    player.invincible = False
 
     for i in range(0,15):
         enemies.append(Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, rand.randint(-350,1350), rand.randint(-350,1350), 300, 0))
