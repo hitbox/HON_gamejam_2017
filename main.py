@@ -48,7 +48,7 @@ ally_sprite_group.add(player)
 
 
 
-print(str(all_assets))
+#print(str(all_assets))
 
 
 
