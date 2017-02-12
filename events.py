@@ -42,17 +42,27 @@ def handle_events(scene_id, player, background, menu):
                     background.accelerate(2)
 
                 if event.key == K_UP:
+                    effect = pygame.mixer.Sound(strike_sound_path)
+                    effect.play()
                     player.attack(0)
                 if event.key == K_DOWN:
+                    effect = pygame.mixer.Sound(strike_sound_path)
+                    effect.play()
                     player.attack(1)
                 if event.key == K_RIGHT:
+                    effect = pygame.mixer.Sound(strike_sound_path)
+                    effect.play()
                     player.attack(2)
                 if event.key == K_LEFT:
+                    effect = pygame.mixer.Sound(strike_sound_path)
+                    effect.play()
                     player.attack(3)
 
                 if event.key == K_SPACE:
                     #print("space key pressed")
                     if end == False:
+                        effect = pygame.mixer.Sound(player_death_sound_path)
+                        effect.play()
                         decors.append(Decor(player_death_frames, player_death_final_img, player.rect.x, player.rect.y - 90, 350))
                         decor_sprite_group.add(decors[-1])
                         player.death_spawned = True

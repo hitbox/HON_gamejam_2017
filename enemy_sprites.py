@@ -46,7 +46,7 @@ class Enemy(pygame.sprite.Sprite):
         self.move_pattern = move_pattern
 
 
-    def behave(self, game_speed, dt, background_x_change, background_y_change, player_x, player_y):
+    def behave(self, game_speed, dt, background_x_change, background_y_change,  player_x, player_y):
 
         self.move()
         self.attack(dt, player_x, player_y)
@@ -68,6 +68,14 @@ class Enemy(pygame.sprite.Sprite):
             if value[0] == self:
                 self.stats['health'] -= key.damage
                 key.damage = 0
+
+                if self.move_pattern == 1:
+                    effect = pygame.mixer.Sound(slime_damage_sound_path)
+                    effect.play()
+                if self.move_pattern == 0:
+                    effect = pygame.mixer.Sound(skull_damage_sound_path)
+                    effect.play()
+
                 #print("slime took damage")
                 self.current_frame_set = self.damage_frames
         #self.rect.x += self.x_change * game_speed
@@ -117,6 +125,14 @@ class Enemy(pygame.sprite.Sprite):
                     decors.append(Decor(plant1_spawn_frames, plant1_final_img, self.rect.x + rand.randint(-10, 10), self.rect.y + rand.randint(-10, 10), 300))
                     decor_sprite_group.add(decors[-1])
                     self.dropped = True
+
+                    if self.move_pattern == 1:
+                        effect = pygame.mixer.Sound(blob_death_sound_path)
+                        effect.play()
+                    if self.move_pattern == 0:
+                        effect = pygame.mixer.Sound(skull_death_sound_path)
+                        effect.play()
+
                 self.kill()
 
             self.frame_idx += 1

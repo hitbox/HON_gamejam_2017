@@ -120,3 +120,10 @@ player_death_frames = []
 player_death_final_img = 'assets/images/inquisitor/death/7.png'
 for i in range(1, 7):
     player_death_frames.append('assets/images/inquisitor/death/' + str(i) + '.png')
+
+strike_sound_path = 'assets/sound/strike.wav'
+player_death_sound_path = 'assets/sound/player_death.wav'
+blob_death_sound_path = 'assets/sound/blob_death.wav'
+skull_death_sound_path = 'assets/sound/skull_death.wav'
+slime_damage_sound_path = 'assets/sound/slime_damage.wav'
+skull_damage_sound_path = 'assets/sound/skull_damage.wav'
