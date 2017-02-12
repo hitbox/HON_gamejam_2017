@@ -35,7 +35,7 @@ INIT_SKULL_STATS = {
 }
 
 INIT_TAR_STATS = {
-    'health' : 10,
+    'health' : 6,
     'speed' : 8,
     'damage' : 2,
     'drop' : 0,
