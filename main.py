@@ -69,6 +69,7 @@ while True:
         if player.current_attack != None:
             player.current_attack.behave(dt)
 
+        screen.fill((0,0,0))
         background_sprite_group.draw(screen)
         enemy_sprite_group.draw(screen)
         ally_sprite_group.draw(screen)
@@ -77,8 +78,9 @@ while True:
         #level1_background.print_rect_loc()
         #stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
         #screen.blit(stats_display, (0,0))
-        screen.blit(pygame.image.load(hud_bar_img), (0,0)) 
+        screen.blit(pygame.image.load(hud_bar_img), (0,0))
         display_health(player.health, screen)
+        display_exp_bar(player.exp, screen)
 
         #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
         #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)

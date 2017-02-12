@@ -10,7 +10,7 @@ INIT_PLAYER_STATS = {
     'health' : 10,
     'speed' : 5,
     'damage' : 1,
-    'exp' : 0
+    'exp' : 4
 }
 
 INIT_SLIME_STATS = {
