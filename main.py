@@ -63,7 +63,6 @@ while True:
     if player.death_spawned:
         user_end = True
     #player.print_rect_loc()
-
     stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
     score_display = stats_font.render('Score: ' + str(score), False, (0,0,0))
     score_display_white = stats_font.render('Final Score: ' + str(score), False, (255,255,255))
@@ -122,6 +121,7 @@ while True:
             #        if e.key == K_SPACE:
             #            user_end = True
             if player.stats['health'] == 0 or user_end:
+
                 if current_end_game_time >= END_GAME_TIME:
                     current_end_game_time = 0
                     user_end = False

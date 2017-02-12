@@ -113,6 +113,7 @@ all_assets.append(startbutton_img + quitbutton_img + retrybutton_img)
 
 plant1_spawn_frames = []
 plant1_final_img = 'assets/images/decor/plant_1/4.png'
+plant2_final_img = 'assets/images/decor/plant_1/5.png'
 for i in range(1,4):
     plant1_spawn_frames.append('assets/images/decor/plant_1/' + str(i) + '.png')
 
@@ -127,3 +128,4 @@ blob_death_sound_path = 'assets/sound/blob_death.wav'
 skull_death_sound_path = 'assets/sound/skull_death.wav'
 slime_damage_sound_path = 'assets/sound/slime_damage.wav'
 skull_damage_sound_path = 'assets/sound/skull_damage.wav'
+exp_sound_path = 'assets/sound/exp.wav'

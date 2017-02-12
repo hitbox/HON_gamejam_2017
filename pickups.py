@@ -46,6 +46,8 @@ class Pickup(pygame.sprite.Sprite):
             #print(key)
             value = collide_dict[key]
             if value[0] == self:
+                effect = pygame.mixer.Sound(exp_sound_path)
+                effect.play()
                 key.update_exp(1)
                 self.kill()
         #self.rect.x += self.x_change * game_speed

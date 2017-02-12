@@ -5,11 +5,12 @@ SCREEN_SIZE = (800, 600)
 LEVEL1_SIZE = (2000,2000)
 FPS = 60
 score = 0
+final_score = 0
 
 PLAYER_SPEED_INIT = 7
 current_menu = None
 
-END_GAME_TIME = 4000
+END_GAME_TIME = 2800
 
 pickups = []
 enemies = []
