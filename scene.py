@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from map_gen import *
 
 #class: background image instance
 #parameters: tuple loc, String image
@@ -33,10 +34,11 @@ class Button(Scene):
         return screen.blit(self.image, self.loc)
 
 #function: performs a button function
-    def activate(self):
+    def activate(self, player, background):
         if self.function == -1:
             exit()
         elif self.function == 1:
+            new_game_init(player, background)
             return 1
         else:
             return 0

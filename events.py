@@ -21,7 +21,7 @@ def handle_events(scene_id, player, background, menu):
                 if event.button == 1:
                     for c,b in zip(menu.clickables, menu.buttons):
                         if c.collidepoint(pygame.mouse.get_pos()):
-                            result = b.activate()
+                            result = b.activate(player, background)
 
         if scene_id == 1:
             if event.type == KEYDOWN:
@@ -37,7 +37,7 @@ def handle_events(scene_id, player, background, menu):
                 if event.key == K_d:
                     player.assign_frame_set(3)
                     background.accelerate(2)
-                    
+
                 if event.key == K_UP:
                     player.attack(0)
                 if event.key == K_DOWN:

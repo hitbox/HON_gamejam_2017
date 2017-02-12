@@ -104,7 +104,7 @@ class Player(pygame.sprite.Sprite):
             value = collide_dict[key]
             if value[0] == self and not self.invincible:
                 self.update_health(-key.stats['damage'])
-                print("player took damage")
+                #print("player took damage")
                 self.invincible = True
                 self.frame_idx = 0
                 self.assign_frame_set(self.current_diretion)

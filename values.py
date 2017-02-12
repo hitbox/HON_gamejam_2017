@@ -1,5 +1,6 @@
 import pygame
 
+debug = False
 SCREEN_SIZE = (800, 600)
 LEVEL1_SIZE = (2000,2000)
 FPS = 60
