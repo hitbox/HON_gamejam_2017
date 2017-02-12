@@ -56,6 +56,15 @@ for i in range(1, 3):
 for i in range(1, 3):
     skull_damage_frames.append('assets/images/enemies/skull/damage/' + str(i) + '.png')
 
+tar_frames = []
+tar_death_frames = ['assets/images/enemies/tar_ball/death/1.png']
+tar_damage_frames = []
+
+for i in range(1, 3):
+    tar_frames.append('assets/images/enemies/tar_ball/movement/' + str(i) + '.png')
+for i in range(1, 3):
+    tar_damage_frames.append('assets/images/enemies/tar_ball/damage/' + str(i) + '.png')
+
 exp_frames = []
 for i in range(1, 5):
     exp_frames.append('assets/images/pickups/exp/' + str(i) + '.png')

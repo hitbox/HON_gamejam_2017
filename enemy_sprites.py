@@ -3,18 +3,20 @@ from assets import *
 from values import *
 import random as rand
 from pickups import *
+import math
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, frames, damage_frames, death_frames, stats, init_x, init_y, ani_time, move_pattern):
+    def __init__(self, frames, damage_frames, death_frames, stats, init_x, init_y, ani_time, move_pattern, x_change=0, y_change=0):
         super().__init__()
 
         self.stats = {
             'health' : stats['health'],
             'speed' : stats['speed'],
             'damage' : stats['damage'],
-            'drop' : rand.randint(0, stats['drop'])
+            'drop' : rand.randint(0, stats['drop']),
+            'attack_time' : stats['attack_time']
         }
-
+        self.current_attack_time = 0
 
         self.frames = frames
         self.damage_frames = damage_frames
@@ -22,8 +24,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.current_frame_set = self.frames
 
-        self.x_change = 0
-        self.y_change = 0
+        self.x_change = x_change
+        self.y_change = y_change
 
         self.frame_idx = -1
         self.current_frame = self.frames[0]
@@ -43,9 +45,10 @@ class Enemy(pygame.sprite.Sprite):
         self.move_pattern = move_pattern
 
 
-    def behave(self, game_speed, dt, background_x_change, background_y_change):
+    def behave(self, game_speed, dt, background_x_change, background_y_change, player_x, player_y):
 
         self.move()
+        self.attack(dt, player_x, player_y)
 
         self.rect.x += (background_x_change + self.stats['speed'] * self.x_change) * game_speed
         self.rect.y += (background_y_change + self.stats['speed'] * self.y_change) * game_speed
@@ -70,6 +73,31 @@ class Enemy(pygame.sprite.Sprite):
         #self.rect.y += self.y_change * game_speed
 
         self.animate(dt)
+
+    def attack(self, dt, player_x, player_y):
+        if not self.died:
+            if self.move_pattern == 0:
+                distance = math.sqrt(math.pow(self.rect.x - player_x, 2) + math.pow(self.rect.y - player_y, 2))
+                #print(str(distance))
+                if (self.current_attack_time >= self.stats['attack_time']) and distance <= 320:
+                    self.current_attack_time = 0
+
+                    x_mod = 0
+                    y_mod = 0
+
+                    if (player_x - self.rect.x) > 45:
+                        x_mod = 1
+                    if (player_x - self.rect.x) < -45:
+                        x_mod = -1
+                    if (player_y - self.rect.y) > 45:
+                        y_mod = 1
+                    if (player_y - self.rect.y) < -45:
+                        y_mod = -1
+
+                    enemies.append(Enemy(tar_frames, tar_damage_frames, tar_death_frames, INIT_TAR_STATS, self.rect.x, self.rect.y, 300, 2, x_mod, y_mod))
+                    enemy_sprite_group.add(enemies[-1])
+                else:
+                    self.current_attack_time += dt
 
     def move(self):
         if self.move_pattern == 1:

@@ -37,11 +37,13 @@ level1_background = GameBackground(level1_background_img, player.stats, 0, 0)
 enemy1 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 500, 500, 300, 1)
 enemy2 = Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, 540, 500, 300, 0)
 enemy3 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 200, 200, 300, 1)
+enemy4 = Enemy(tar_frames, tar_damage_frames, tar_death_frames, INIT_TAR_STATS, 100, 100, 300, 2)
 
 #make ally sprite group
 enemy_sprite_group.add(enemy1)
 enemy_sprite_group.add(enemy2)
 enemy_sprite_group.add(enemy3)
+enemy_sprite_group.add(enemy4)
 
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
@@ -62,9 +64,12 @@ while True:
         level1_background.stats = player.stats
 
         level1_background.behave(game_speed)
-        enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
-        enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
-        enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
+        enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
+        enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
+        enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
+        enemy4.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
+        for e in enemies:
+            e.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         for p in pickups:
             p.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         player.behave(game_speed, dt)

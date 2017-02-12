@@ -7,6 +7,7 @@ FPS = 60
 PLAYER_SPEED_INIT = 7
 
 pickups = []
+enemies = []
 
 INIT_PLAYER_STATS = {
     'health' : 10,
@@ -19,15 +20,26 @@ INIT_SLIME_STATS = {
     'health' : 5,
     'speed' : 2.5,
     'damage' : 1,
-    'drop' : 1
+    'drop' : 1,
+    'attack_time' : 0
 }
 
 INIT_SKULL_STATS = {
     'health' : 3,
     'speed' : 0,
     'damage' : 1,
-    'drop' : 3
+    'drop' : 3,
+    'attack_time' : 2000
 }
+
+INIT_TAR_STATS = {
+    'health' : 10,
+    'speed' : 8,
+    'damage' : 2,
+    'drop' : 0,
+    'attack_time' : 0
+}
+
 
 PLAYER_ATTACK_TIME = 80
 
