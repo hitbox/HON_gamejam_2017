@@ -93,6 +93,8 @@ class Enemy(pygame.sprite.Sprite):
                         y_mod = 1
                     if (player_y - self.rect.y) < -45:
                         y_mod = -1
+                    if x_mod == 0 and y_mod == 0:
+                        y_mod = 1
 
                     enemies.append(Enemy(tar_frames, tar_damage_frames, tar_death_frames, INIT_TAR_STATS, self.rect.x, self.rect.y, 300, 2, x_mod, y_mod))
                     enemy_sprite_group.add(enemies[-1])

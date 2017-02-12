@@ -19,13 +19,14 @@ class Player(pygame.sprite.Sprite):
             'health' : stats['health'],
             'speed' : stats['speed'],
             'damage' : stats ['damage'],
-            'exp' : stats['exp']
+            'exp' : stats['exp'],
+            'level' : stats['level']
         }
 
-        self.health = self.stats['health']
-        self.speed = self.stats['speed']
-        self.damage = self.stats['damage']
-        self.exp = self.stats['exp']
+        #self.health = self.stats['health']
+        #self.speed = self.stats['speed']
+        #self.damage = self.stats['damage']
+        #self.exp = self.stats['exp']
 
         self.front_frames = front_frames
         self.back_frames = back_frames
@@ -87,8 +88,15 @@ class Player(pygame.sprite.Sprite):
 #parameters: float game_speed
 #game_speed: base speed for all entities in the game
     def behave(self, game_speed, dt):
+
+        self.stats['level'] = int(self.stats['exp'] / 20)
+        self.stats['damage'] = INIT_PLAYER_STATS['damage'] + 1 * self.stats['level']
+        #self.stats['speed'] = INIT_PLAYER_STATS['speed'] + 2 * self.stats['level']
+
         self.rect.x += self.x_change * game_speed
         self.rect.y += self.y_change * game_speed
+
+
 
         collide_dict = pygame.sprite.groupcollide(enemy_sprite_group, ally_sprite_group, False, False)
         for key in collide_dict.keys():
@@ -173,17 +181,13 @@ class Player(pygame.sprite.Sprite):
 #ddamage: desired change in damage
 #dexp: desired change in experience
     def update_stats(self, dhealth, dspeed, ddamage, dexp):
-        self.health += dhealth
-        if self.health < 0:
-            self.health = 0
-        self.speed += dspeed
-        self.damage += ddamage
-        self.exp += dexp
 
-        self.stats['health'] = self.health
-        self.stats['speed'] = self.speed
-        self.stats['damage'] = self.damage
-        self.stats['exp'] = self.exp
+        self.stats['health'] += dhealth
+        if self.stats['health'] < 0:
+            self.stats['health'] = 0
+        self.stats['speed'] += dspeed
+        self.stats['damage'] += ddamage
+        self.stats['exp'] += dexp
 
 #function: changes the health stat
 #parameters: int d
@@ -208,7 +212,6 @@ class Player(pygame.sprite.Sprite):
 #d: amount to change the stat by
     def update_exp(self, d):
         self.update_stats(0, 0, 0, d)
-
 
 #function: prints the location of the player rect attribute
     def print_rect_loc(self):

@@ -37,13 +37,19 @@ level1_background = GameBackground(level1_background_img, player.stats, 0, 0)
 enemy1 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 500, 500, 300, 1)
 enemy2 = Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, 540, 500, 300, 0)
 enemy3 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 200, 200, 300, 1)
-enemy4 = Enemy(tar_frames, tar_damage_frames, tar_death_frames, INIT_TAR_STATS, 100, 100, 300, 2)
+
+for i in range(0,20):
+    enemies.append(Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, 100 + i * 60, 600, 300, 0))
+    enemy_sprite_group.add(enemies[-1])
+
+for i in range(0,20):
+    pickups.append(Pickup(exp_frames, 100 + i * 60, 150, 300))
+    pickup_sprite_group.add(pickups[-1])
 
 #make ally sprite group
 enemy_sprite_group.add(enemy1)
 enemy_sprite_group.add(enemy2)
 enemy_sprite_group.add(enemy3)
-enemy_sprite_group.add(enemy4)
 
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
@@ -61,13 +67,14 @@ while True:
         title_menu.display(screen)
     if scene_id == 1:
 
+        score = player.stats['health'] * player.stats['exp']
+
         level1_background.stats = player.stats
 
         level1_background.behave(game_speed)
         enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
-        enemy4.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         for e in enemies:
             e.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
         for p in pickups:
@@ -85,11 +92,14 @@ while True:
         player_attack_group.draw(screen)
 
         #level1_background.print_rect_loc()
-        #stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
-        #screen.blit(stats_display, (0,0))
+        stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
+        score_display = stats_font.render('Score: ' + str(score), False, (0,0,0))
+
         screen.blit(pygame.image.load(hud_bar_img), (0,0))
-        display_health(player.health, screen)
-        display_exp_bar(player.exp, screen)
+        screen.blit(stats_display, (210,15))
+        screen.blit(score_display, (670, 580))
+        display_health(player.stats['health'], screen)
+        display_exp_bar(player.stats['exp'], screen)
 
         #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
         #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)

@@ -29,13 +29,13 @@ def display_health(health ,screen):
 def display_exp_bar(exp, screen):
 
     exp_divisions = 20
-    loc = [230, 10]
+    loc = [280, 10]
     exp_ticks = exp % exp_divisions
     for _ in range(0, exp_ticks):
         screen.blit(pygame.image.load(exp_fill_img), loc)
         loc[0] += 28 -4
 
-    loc = [220, 10]
+    loc = [270, 10]
     screen.blit(pygame.image.load(exp_left_img), loc)
     loc[0] += 10
     for _ in range(0, exp_divisions):
