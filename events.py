@@ -9,7 +9,7 @@ from pygame.locals import *
 def handle_events(scene_id, player, background, menu):
 
     result = scene_id
-
+    end = False
     for event in pygame.event.get():
         #print(event)
 
@@ -47,6 +47,10 @@ def handle_events(scene_id, player, background, menu):
                 if event.key == K_LEFT:
                     player.attack(3)
 
+                if event.key == K_SPACE:
+                    #print("space key pressed")
+                    end = True
+
             if event.type == KEYUP:
                 if event.key == K_w:
                     background.deccelerate(1)
@@ -59,4 +63,4 @@ def handle_events(scene_id, player, background, menu):
 
     if result < 0:
         result = 0
-    return result
+    return result, end

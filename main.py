@@ -11,6 +11,8 @@ from game_ui import *
 from pickups import *
 from map_gen import *
 
+user_end = False
+
 clock = pygame.time.Clock()
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE, 0, 32)
@@ -20,7 +22,7 @@ stats_font = pygame.font.SysFont('Comic Sans', 30)
 
 #set the current scene
 scene_id = 0
-current_menu = None
+
 
 player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, player_invincible_frames_front,
 player_invincible_frames_back, player_invincible_frames_right, player_invincible_frames_left, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
@@ -56,12 +58,13 @@ while True:
     dt = clock.tick(FPS)
     game_speed = .4
 
-    scene_id = handle_events(scene_id, player, level1_background, current_menu)
+    scene_id, user_end = handle_events(scene_id, player, level1_background, current_menu)
     #player.print_rect_loc()
 
     stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
     score_display = stats_font.render('Score: ' + str(score), False, (0,0,0))
     #print('\nenemies: ' + str(enemies))
+    #print(str(user_end))
     if scene_id == 0:
         current_menu.display(screen)
 
@@ -106,7 +109,12 @@ while True:
         display_exp_bar(player.stats['exp'], screen)
 
         if debug == False:
-            if player.stats['health'] == 0:
+            #for e in pygame.event.get():
+            #    if e.type == KEYDOWN:
+            #        if e.key == K_SPACE:
+            #            user_end = True
+            if player.stats['health'] == 0 or user_end:
+                user_end = False
                 scene_id = 0
                 game_end()
                 current_menu = game_over

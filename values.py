@@ -7,9 +7,10 @@ FPS = 60
 score = 0
 
 PLAYER_SPEED_INIT = 7
-
+current_menu = None
 pickups = []
 enemies = []
+
 
 INIT_PLAYER_STATS = {
     'health' : 10,
