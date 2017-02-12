@@ -8,7 +8,7 @@ from pygame.locals import *
 class Scene():
     def __init__(self, loc, image):
         self.loc = loc
-        self.image = pygame.image.load(image).convert()
+        self.image = pygame.image.load(image).convert_alpha()
 
 #function: displays images
 #parameters: pygame.display screen

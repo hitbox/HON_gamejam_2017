@@ -22,7 +22,8 @@ current_menu = None
 
 
 #initialize the player
-player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
+player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, player_invincible_frames_front,
+player_invincible_frames_back, player_invincible_frames_right, player_invincible_frames_left, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
 
 #initialize title screen
 title_screen_buttons = [Button((200, 200),startbutton_img, 1), Button((200, 300), quitbutton_img, -1)]
@@ -31,10 +32,14 @@ current_menu = title_menu
 #initialize level 1 background
 level1_background = GameBackground(level1_background_img, player.stats, 0, 0)
 
-enemy1 = Enemy(slime_frames, INIT_SLIME_STATS, 500, 500, 1000)
+enemy1 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 500, 500, 300, 1)
+enemy2 = Enemy(skull_frames, skull_damage_frames, skull_death_frames, INIT_SKULL_STATS, 540, 500, 300, 0)
+enemy3 = Enemy(slime_frames, slime_damage_frames, slime_death_frames, INIT_SLIME_STATS, 200, 200, 300, 1)
 
 #make ally sprite group
 enemy_sprite_group.add(enemy1)
+enemy_sprite_group.add(enemy2)
+enemy_sprite_group.add(enemy3)
 
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
@@ -56,6 +61,8 @@ while True:
 
         level1_background.behave(game_speed)
         enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
+        enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
+        enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         player.behave(game_speed, dt)
 
         if player.current_attack != None:
@@ -70,10 +77,12 @@ while True:
         stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
         screen.blit(stats_display, (0,0))
 
-        collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)
-        for key in collide_dict.keys():
-            print(collide_dict[key])
+        #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
+        #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)
+        #for key in collide_dict.keys():
+        #    print(collide_dict[key])
         #print(player_attack_group)
+        #print("Slime: " + str(INIT_SLIME_STATS) + " Skull: " + str(INIT_SKULL_STATS))
 
 
 

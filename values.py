@@ -15,9 +15,16 @@ INIT_PLAYER_STATS = {
 
 INIT_SLIME_STATS = {
     'health' : 5,
-    'speed' : 3,
+    'speed' : 2.5,
     'damage' : 1
 }
+
+INIT_SKULL_STATS = {
+    'health' : 3,
+    'speed' : 0,
+    'damage' : 1
+}
+
 PLAYER_ATTACK_TIME = 80
 
 ally_sprite_group = pygame.sprite.Group()

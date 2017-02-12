@@ -13,7 +13,7 @@ from values import *
 #init_y: initial y value of the spawning location of the player
 #ani_time: time between frames in the animation
 class Player(pygame.sprite.Sprite):
-    def __init__(self, front_frames, back_frames, right_frames, left_frames, stats, init_x, init_y, ani_time):
+    def __init__(self, front_frames, back_frames, right_frames, left_frames, front_invincible_frames, back_invincible_frames, right_invincible_frames, left_invincible_frames, stats, init_x, init_y, ani_time):
         super().__init__()
         self.stats = stats
         self.health = self.stats['health']
@@ -25,6 +25,12 @@ class Player(pygame.sprite.Sprite):
         self.back_frames = back_frames
         self.right_frames = right_frames
         self.left_frames = left_frames
+
+        self.front_invincible_frames = front_invincible_frames
+        self.back_invincible_frames = back_invincible_frames
+        self.right_invincible_frames = right_invincible_frames
+        self.left_invincible_frames = left_invincible_frames
+
         self.current_frame_set = front_frames
         self.prev_frame_set = self.current_frame_set
 
@@ -45,6 +51,10 @@ class Player(pygame.sprite.Sprite):
 
         self.current_attack = None
 
+        self.invincible = False
+
+        self.current_diretion = 1
+
 
 #function: animates the sprite by changing the displayed image
 #parameters: float dt
@@ -55,6 +65,9 @@ class Player(pygame.sprite.Sprite):
 
             if self.frame_idx >= len(self.current_frame_set):
                 self.frame_idx = 0
+                if self.current_frame_set != (self.front_frames or self.back_frames or self.right_frames or self.left_frames):
+                    self.invincible = False
+                    self.assign_frame_set(self.current_diretion)
 
             self.current_frame = self.current_frame_set[self.frame_idx]
             self.current_ani_time = 0
@@ -70,6 +83,18 @@ class Player(pygame.sprite.Sprite):
     def behave(self, game_speed, dt):
         self.rect.x += self.x_change * game_speed
         self.rect.y += self.y_change * game_speed
+
+        collide_dict = pygame.sprite.groupcollide(enemy_sprite_group, ally_sprite_group, False, False)
+        for key in collide_dict.keys():
+            #print(key)
+            value = collide_dict[key]
+            if value[0] == self and not self.invincible:
+                self.update_health(-key.stats['damage'])
+                print("player took damage")
+                self.invincible = True
+                self.frame_idx = 0
+                self.assign_frame_set(self.current_diretion)
+                #self.current_frame_set = self.damage_frames
 
         self.animate(dt)
         if player_attack_group.sprites() == []:
@@ -90,18 +115,31 @@ class Player(pygame.sprite.Sprite):
             self.x_change = self.speed
 
     def assign_frame_set(self, direction):
+        self.current_diretion = direction
         if direction == 0:
             #self.y_change = -self.speed
-            self.current_frame_set = self.back_frames
+            if self.invincible:
+                self.current_frame_set = self.back_invincible_frames
+            else:
+                self.current_frame_set = self.back_frames
         if direction == 1:
             #self.y_change = self.speed * 1.5
-            self.current_frame_set = self.front_frames
+            if self.invincible:
+                self.current_frame_set = self.front_invincible_frames
+            else:
+                self.current_frame_set = self.front_frames
         if direction == 2:
             #self.x_change = -self.speed
-            self.current_frame_set = self.left_frames
+            if self.invincible:
+                self.current_frame_set = self.left_invincible_frames
+            else:
+                self.current_frame_set = self.left_frames
         if direction == 3:
             #self.x_change = self.speed * 1.5
-            self.current_frame_set = self.right_frames
+            if self.invincible:
+                self.current_frame_set = self.right_invincible_frames
+            else:
+                self.current_frame_set = self.right_frames
 
         if self.prev_frame_set != self.current_frame_set:
             frame_idx = 0;
