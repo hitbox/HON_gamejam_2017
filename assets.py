@@ -56,9 +56,13 @@ for i in range(1, 3):
 for i in range(1, 3):
     skull_damage_frames.append('assets/images/enemies/skull/damage/' + str(i) + '.png')
 
+hud_bar_img = 'assets/images/ui/hud_bar.png'
+full_heart_img = "assets/images/ui/full_heart.png"
+half_heart_img = 'assets/images/ui/half_heart.png'
+empty_heart_img = 'assets/images/ui/empty_heart.png'
 
 title_background_img = 'assets/images/title_background.png'
-level1_background_img = 'assets/images/background.png'
+level1_background_img = 'assets/images/background_sand.png'
 
 startbutton_img = 'assets/images/start_button.png'
 quitbutton_img = 'assets/images/quit_button.png'

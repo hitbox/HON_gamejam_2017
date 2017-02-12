@@ -7,6 +7,7 @@ from assets import *
 from player_sprites import *
 from enemy_sprites import *
 from scene import *
+from game_ui import *
 
 clock = pygame.time.Clock()
 pygame.init()
@@ -74,8 +75,10 @@ while True:
         player_attack_group.draw(screen)
 
         #level1_background.print_rect_loc()
-        stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
-        screen.blit(stats_display, (0,0))
+        #stats_display = stats_font.render(player.stats_str(), False, (0,0,0))
+        #screen.blit(stats_display, (0,0))
+        screen.blit(pygame.image.load(hud_bar_img), (0,0)) 
+        display_health(player.health, screen)
 
         #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
         #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)

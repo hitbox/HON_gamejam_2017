@@ -15,7 +15,13 @@ from values import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, front_frames, back_frames, right_frames, left_frames, front_invincible_frames, back_invincible_frames, right_invincible_frames, left_invincible_frames, stats, init_x, init_y, ani_time):
         super().__init__()
-        self.stats = stats
+        self.stats = {
+            'health' : stats['health'],
+            'speed' : stats['speed'],
+            'damage' : stats ['damage'],
+            'exp' : stats['exp']
+        }
+
         self.health = self.stats['health']
         self.speed = self.stats['speed']
         self.damage = self.stats['damage']
@@ -168,6 +174,8 @@ class Player(pygame.sprite.Sprite):
 #dexp: desired change in experience
     def update_stats(self, dhealth, dspeed, ddamage, dexp):
         self.health += dhealth
+        if self.health < 0:
+            self.health = 0
         self.speed += dspeed
         self.damage += ddamage
         self.exp += dexp
