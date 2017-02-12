@@ -2,6 +2,7 @@ import pygame
 from assets import *
 from values import *
 import random as rand
+from pickups import *
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, frames, damage_frames, death_frames, stats, init_x, init_y, ani_time, move_pattern):
@@ -10,7 +11,8 @@ class Enemy(pygame.sprite.Sprite):
         self.stats = {
             'health' : stats['health'],
             'speed' : stats['speed'],
-            'damage' : stats['damage']
+            'damage' : stats['damage'],
+            'drop' : rand.randint(0, stats['drop'])
         }
 
 
@@ -36,6 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = init_y
 
         self.died = False
+        self.dropped = False
 
         self.move_pattern = move_pattern
 
@@ -76,6 +79,11 @@ class Enemy(pygame.sprite.Sprite):
     def animate(self, dt):
         if self.current_ani_time >= self.ani_time:
             if self.died:
+                if not self.dropped:
+                    for _ in range(0, self.stats['drop']):
+                        pickups.append(Pickup(exp_frames, self.rect.x + rand.randint(-10, 10), self.rect.y + rand.randint(-10, 10), 300))
+                        pickup_sprite_group.add(pickups[-1])
+                    self.dropped = True
                 self.kill()
 
             self.frame_idx += 1

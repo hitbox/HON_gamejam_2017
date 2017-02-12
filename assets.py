@@ -56,6 +56,10 @@ for i in range(1, 3):
 for i in range(1, 3):
     skull_damage_frames.append('assets/images/enemies/skull/damage/' + str(i) + '.png')
 
+exp_frames = []
+for i in range(1, 5):
+    exp_frames.append('assets/images/pickups/exp/' + str(i) + '.png')
+
 exp_left_img = 'assets/images/ui/exp_left.png'
 exp_right_img = 'assets/images/ui/exp_right.png'
 exp_middle_img = 'assets/images/ui/exp_middle.png'

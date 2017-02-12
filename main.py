@@ -8,6 +8,7 @@ from player_sprites import *
 from enemy_sprites import *
 from scene import *
 from game_ui import *
+from pickups import *
 
 clock = pygame.time.Clock()
 pygame.init()
@@ -64,6 +65,8 @@ while True:
         enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
+        for p in pickups:
+            p.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
         player.behave(game_speed, dt)
 
         if player.current_attack != None:
@@ -71,6 +74,7 @@ while True:
 
         screen.fill((0,0,0))
         background_sprite_group.draw(screen)
+        pickup_sprite_group.draw(screen)
         enemy_sprite_group.draw(screen)
         ally_sprite_group.draw(screen)
         player_attack_group.draw(screen)
