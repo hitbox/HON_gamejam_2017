@@ -48,13 +48,13 @@ all_assets += player_attack_back_frames + player_attack_front_frames + player_at
 
 
 slime_frames = []
-slime_death_frames = ['assets/images/slime/death/1.png']
+slime_death_frames = ['assets/images/enemies/slime/death/1.png']
 slime_damage_frames = []
 
 for i in range(1, 3):
-    slime_frames.append('assets/images/slime/movement/' + str(i) + '.png')
+    slime_frames.append('assets/images/enemies/slime/movement/' + str(i) + '.png')
 for i in range(1, 3):
-    slime_damage_frames.append('assets/images/slime/damage/' + str(i) + '.png')
+    slime_damage_frames.append('assets/images/enemies/slime/damage/' + str(i) + '.png')
 
 all_assets += slime_frames + slime_death_frames + slime_damage_frames
 
