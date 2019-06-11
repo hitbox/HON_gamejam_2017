@@ -7,14 +7,14 @@ FPS = 60
 score = 0
 final_score = 0
 
+PLAYER_ATTACK_TIME = 80
 PLAYER_SPEED_INIT = 7
+
 current_menu = None
 
 END_GAME_TIME = 2800
 
-pickups = []
 enemies = []
-decors = []
 
 INIT_PLAYER_STATS = {
     'health' : 10,
@@ -47,9 +47,6 @@ INIT_TAR_STATS = {
     'drop' : 0,
     'attack_time' : 0
 }
-
-
-PLAYER_ATTACK_TIME = 80
 
 ally_sprite_group = pygame.sprite.Group()
 background_sprite_group = pygame.sprite.Group()

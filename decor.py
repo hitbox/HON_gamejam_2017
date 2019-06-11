@@ -1,14 +1,14 @@
 import pygame
-from pygame.locals import *
 
 class Decor(pygame.sprite.Sprite):
+
     def __init__(self, spawn_frames, image, init_x, init_y, ani_time):
         super().__init__()
 
         self.spawn_frames = spawn_frames
         self.frame_idx = 0
         self.current_frame = self.spawn_frames[self.frame_idx]
-        self.image = pygame.image.load(self.current_frame)
+        self.image = self.current_frame
         self.ani_time = ani_time
         self.current_ani_time = 0
         self.spawning = True
@@ -21,11 +21,9 @@ class Decor(pygame.sprite.Sprite):
         self.rect.x = init_x
         self.rect.y = init_y
 
-    def behave(self, game_speed, dt, background_x_change, background_y_change):
-
+    def update(self, game_speed, dt, background_x_change, background_y_change):
         self.rect.x += background_x_change * game_speed
         self.rect.y += background_y_change * game_speed
-
         if self.spawning:
             self.spawn(dt)
 
@@ -36,13 +34,13 @@ class Decor(pygame.sprite.Sprite):
 
             if self.frame_idx >= len(self.spawn_frames):
                 self.spawning = False
-                self.image = pygame.image.load(self.final_image)
+                self.image = self.final_image
 
 
             self.current_ani_time = 0
             if self.spawning:
                 self.current_frame = self.spawn_frames[self.frame_idx]
-                self.image = pygame.image.load(self.current_frame)
+                self.image = self.current_frame
 
         else:
             self.current_ani_time += dt

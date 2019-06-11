@@ -26,16 +26,21 @@ scene_id = 0
 
 current_end_game_time = 0
 
-player = Player(player_front_frames, player_back_frames, player_right_frames, player_left_frames, player_invincible_frames_front,
-player_invincible_frames_back, player_invincible_frames_right, player_invincible_frames_left, INIT_PLAYER_STATS, (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
-
-
+player = Player(player_front_frames, player_back_frames, player_right_frames,
+                player_left_frames, player_invincible_frames_front,
+                player_invincible_frames_back, player_invincible_frames_right,
+                player_invincible_frames_left, INIT_PLAYER_STATS,
+                (SCREEN_SIZE[0]/2) - 10, (SCREEN_SIZE[1]/2) - 15, 200)
 
 #initialize title screen
-title_screen_buttons = [Button((300, 275),startbutton_img, 1), Button((300, 375), quitbutton_img, -1)]
+title_screen_buttons = [
+    Button((300, 275),startbutton_img, 1), Button((300, 375), quitbutton_img, -1)
+]
 title_menu = Menu(screen, title_background_img, title_screen_buttons)
 
-game_over_screen_buttons = [Button((300, 275), retrybutton_img, 1), Button((300, 375), quitbutton_img, -1)]
+game_over_screen_buttons = [
+    Button((300, 275), retrybutton_img, 1), Button((300, 375), quitbutton_img, -1)
+]
 game_over = Menu(screen, title_background_img, game_over_screen_buttons)
 current_menu = title_menu
 #initialize level 1 background
@@ -44,60 +49,40 @@ level1_background = GameBackground(level1_background_img, player.stats, -1000, -
 background_sprite_group.add(level1_background)
 ally_sprite_group.add(player)
 
-
-
-
-
-
-#print(str(all_assets))
-
-
-
-
+game_speed = .4
 while True:
-    #print(str(scene_id))
     dt = clock.tick(FPS)
-    game_speed = .4
 
     scene_id, user_end = handle_events(scene_id, player, level1_background, current_menu)
     if player.death_spawned:
         user_end = True
-    #player.print_rect_loc()
     stats_display = stats_font.render(str(player.stats['level']), False, (255,255,255))
     score_display = stats_font.render('Score: ' + str(score), False, (0,0,0))
     score_display_white = stats_font.render('Final Score: ' + str(score), False, (255,255,255))
-    #print('\nenemies: ' + str(enemies))
-    #print(str(user_end))
     if scene_id == 0:
         current_menu.display(screen)
-
         if current_menu == game_over:
             screen.blit(score_display_white, (580, 580))
-    if scene_id == 2:
+    elif scene_id == 2:
         game_over.display(screen)
 
-    if scene_id == 1:
-
+    elif scene_id == 1:
         score = player.stats['health'] * player.stats['exp']
-
         level1_background.stats = player.stats
+        level1_background.update(game_speed)
 
-        level1_background.behave(game_speed)
-        #enemy1.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
-        #enemy2.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
-        #enemy3.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
-        for e in enemies:
-            e.behave(game_speed, dt, level1_background.x_change, level1_background.y_change, player.rect.x, player.rect.y)
-        for p in pickups:
-            p.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
-        for d in decors:
-            d.behave(game_speed, dt, level1_background.x_change, level1_background.y_change)
-        player.behave(game_speed, dt)
+        enemy_sprite_group.update(game_speed, dt, level1_background.x_change,
+                                  level1_background.y_change, player.rect.x,
+                                  player.rect.y)
+        pickup_sprite_group.update(game_speed, dt, level1_background.x_change,
+                                   level1_background.y_change)
+        decor_sprite_group.update(game_speed, dt, level1_background.x_change,
+                                  level1_background.y_change)
+        player.update(game_speed, dt)
 
-        if player.current_attack != None:
-            player.current_attack.behave(dt)
+        if player.current_attack is not None:
+            player.current_attack.update(dt)
 
-        screen.fill((0,0,0))
         background_sprite_group.draw(screen)
         pickup_sprite_group.draw(screen)
         decor_sprite_group.draw(screen)
@@ -106,22 +91,20 @@ while True:
             ally_sprite_group.draw(screen)
         player_attack_group.draw(screen)
 
-        #level1_background.print_rect_loc()
+        rect = screen.get_rect()
+        subrect = rect.inflate(-200, -200)
+        tmp = pygame.Surface(subrect.size)
+        tmp.blit(screen.subsurface(subrect), (0, 0))
+        pygame.transform.scale(tmp, rect.size, screen)
 
-
-        screen.blit(pygame.image.load(hud_bar_img), (0,0))
+        screen.blit(hud_bar_img, (0,0))
         screen.blit(stats_display, (210,15))
         screen.blit(score_display, (670, 580))
         display_health(player.stats['health'], screen)
         display_exp_bar(player.stats['exp'], screen)
 
-        if debug == False:
-            #for e in pygame.event.get():
-            #    if e.type == KEYDOWN:
-            #        if e.key == K_SPACE:
-            #            user_end = True
+        if not debug:
             if player.stats['health'] == 0 or user_end:
-
                 if current_end_game_time >= END_GAME_TIME:
                     current_end_game_time = 0
                     user_end = False
@@ -130,14 +113,5 @@ while True:
                     current_menu = game_over
                 else:
                     current_end_game_time += dt
-
-        #print("enemy1 health: " + str(enemy1.stats['health']) + " enemy2 health: " + str(enemy2.stats['health']))
-        #collide_dict = pygame.sprite.groupcollide(player_attack_group, enemy_sprite_group, False, False)
-        #for key in collide_dict.keys():
-        #    print(collide_dict[key])
-        #print(player_attack_group)
-        #print("Slime: " + str(INIT_SLIME_STATS) + " Skull: " + str(INIT_SKULL_STATS))
-
-
 
     pygame.display.update()
